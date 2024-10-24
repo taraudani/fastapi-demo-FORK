@@ -23,3 +23,7 @@ def multiply(c: int, d: int):
 @app.get("/square/{e}")
 def square(e: int):
     return {"product": e * e}
+
+@app.get("/subtract/{f}/{g}")
+def square(e: int):
+    return {"sum": f - g}
