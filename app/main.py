@@ -25,30 +25,9 @@ app.add_middleware(
 db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS, database=DB)
 cur=db.cursor()
 
-@app.get("/")  # zone apex
-def zone_apex():
-    return {"Hello": "Tara!"}
-
-@app.get("/add/{a}/{b}")
-def add(a: int, b: int):
-    return {"sum": a + b}
-
-@app.get("/multiply/{c}/{d}")
-def multiply(c: int, d: int):
-    return {"product": c * d}
-
-@app.get("/square/{e}")
-def square(e: int):
-    return {"product": e * e}
-
-@app.get("/subtract/{f}/{g}")
-def square(e: int):
-    return {"sum": f - g}
     
 @app.get('/genres')
 def get_genres():
-    db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS, database=DB)
-    cur=db.cursor()
     query = "SELECT * FROM genres ORDER BY genreid;"
     try:    
         cur.execute(query)
@@ -60,13 +39,10 @@ def get_genres():
         return(json_data)
     except Error as e:
         return {"Error": "MySQL Error: " + str(e)}
-    cur.close
-    db.close
+   
 
 @app.get('/songs')
 def get_songs():
-    db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS, database=DB)
-    cur=db.cursor()
     query = "SELECT songs.title, songs.album, songs.artist, songs.year, songs.image, songs.file, genres.genre FROM `songs` JOIN genres ON genres.genreid = songs.genre;;"
     try:    
         cur.execute(query)
@@ -78,6 +54,5 @@ def get_songs():
         return(json_data)
     except Error as e:
         return {"Error": "MySQL Error: " + str(e)}
-    cur.close
-    db.close
+  
         
