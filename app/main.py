@@ -67,7 +67,7 @@ def get_genres():
 def get_songs():
     db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS, database=DB)
     cur=db.cursor()
-    query = "SELECT songs.title, songs.album, songs.artist, songs.year, genres.genre FROM `songs` JOIN genres ON genres.genreid = songs.genre;;"
+    query = "SELECT songs.title, songs.album, songs.artist, songs.year, songs.image, songs.file, genres.genre FROM `songs` JOIN genres ON genres.genreid = songs.genre;;"
     try:    
         cur.execute(query)
         headers=[x[0] for x in cur.description]
