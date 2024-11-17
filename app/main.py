@@ -15,6 +15,9 @@ DBPASS = os.getenv('DBPASS')
 DB = "hav7tz"
 app = FastAPI()
 
+db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS, database=DB)
+cur=db.cursor()
+
 @app.get("/")  # zone apex
 def zone_apex():
     return {"Hello": "Tara!"}
@@ -34,3 +37,4 @@ def square(e: int):
 @app.get("/subtract/{f}/{g}")
 def square(e: int):
     return {"sum": f - g}
+    
