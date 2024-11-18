@@ -60,10 +60,12 @@ def get_genres():
         return(json_data)
     except Error as e:
         return {"Error": "MySQL Error: " + str(e)}
-    
+
 
 @app.get('/songs')
 def get_songs():
+    db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS, database=DB)
+    cur=db.cursor()
     query = "SELECT songs.title, songs.album, songs.artist, songs.year, genres.genre FROM `songs` JOIN genres ON genres.genreid = songs.genre;;"
     try:    
         cur.execute(query)
@@ -77,5 +79,5 @@ def get_songs():
         return(json_data)
     except Error as e:
         return {"Error": "MySQL Error: " + str(e)}
- 
+   
         
