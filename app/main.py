@@ -22,7 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS, database=DB)
+db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS, database=DB, ssl_disabled=True)
 cur=db.cursor()
 
 @app.get("/")  # zone apex
@@ -64,8 +64,6 @@ def get_genres():
 
 @app.get('/songs')
 def get_songs():
-    db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS, database=DB)
-    cur=db.cursor()
     query = "SELECT songs.title, songs.album, songs.artist, songs.year, genres.genre FROM `songs` JOIN genres ON genres.genreid = songs.genre;;"
     try:    
         cur.execute(query)
