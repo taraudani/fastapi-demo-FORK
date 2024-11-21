@@ -39,31 +39,38 @@ def multiply(c: int, d: int):
 
 @app.get("/square/{e}")
 def square(e: int):
-    return {"product": e * e}
+    return {"sum": e * e}
 
 @app.get("/subtract/{f}/{g}")
-def square(e: int):
+def subtract(f: int, g: int):
     return {"sum": f - g}
+
     
 @app.get('/genres')
 def get_genres():
+    db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS, database=DB)
+    cur = db.cursor()
     query = "SELECT * FROM genres ORDER BY genreid;"
     try:    
         cur.execute(query)
-        headers=[x[0] for x in cur.description]
+        headers = [x[0] for x in cur.description]
         results = cur.fetchall()
-        json_data=[]
+        json_data = []
         for result in results:
-            json_data.append(dict(zip(headers,result)))
+            json_data.append(dict(zip(headers, result)))
         cur.close()
         db.close()
-        return(json_data)
+        return json_data
     except Error as e:
+        cur.close()
+        db.close()
         return {"Error": "MySQL Error: " + str(e)}
-
+    
 
 @app.get('/songs')
 def get_songs():
+    db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS, database=DB)
+    cur = db.cursor()
     query = "SELECT songs.title, songs.album, songs.artist, songs.year, genres.genre FROM `songs` JOIN genres ON genres.genreid = songs.genre;;"
     try:    
         cur.execute(query)
@@ -76,6 +83,8 @@ def get_songs():
         db.close()
         return(json_data)
     except Error as e:
+        cur.close()
+        db.close()
         return {"Error": "MySQL Error: " + str(e)}
    
         
